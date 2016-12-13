@@ -8,7 +8,27 @@ import createLogger from 'redux-logger';
 
 import ngReduxRouter from '../src';
 
-import { routerStateReducer, routerActions } from '../src';
+import { actionCreators } from '../src';
+
+const RECORD_ROUTE = 'RECORD_ROUTE';
+
+function recordRoute(current) {
+  return {
+    type: RECORD_ROUTE,
+    payload: current
+  };
+}
+
+function routerReducer(state = {}, action) {
+  return (action.type === RECORD_ROUTE) ? { current: info(action.payload), previous: state.current } : state;
+}
+
+function info(routeInfo) {
+  return routeInfo ? {
+    name: routeInfo.locals.name,
+    params: Object.assign({}, routeInfo.params)
+  } : { params: {} };
+}
 
 export default angular
   .module('demoApp', [
@@ -25,12 +45,12 @@ export default angular
       };
     })($scope));
   })
-  .config($routeProvider => {
+  .config(['$routeProvider', $routeProvider => {
     $routeProvider
       .when('/children/:childId', {
         template: `
           <div class="child-view">
-            <h2>Child View childId</h2>
+            <h2>Child View</h2>
             <button ng-click="setLocationUrl('children/1')">setLocationUrl('children/1')</button>
             <button ng-click="setLocationUrl('children/2')">setLocationUrl('children/2')</button>
             <button ng-click="setLocationSearch({xxx:'yyy'})">setLocationSearch({xxx:'yyy'})</button>
@@ -38,7 +58,7 @@ export default angular
           </div>
         `,
         controller: ($scope, $ngRedux) => {
-          $scope.$on('$destroy', $ngRedux.connect(null, routerActions)($scope));
+          $scope.$on('$destroy', $ngRedux.connect(null, actionCreators)($scope));
         },
         resolve: {
           name: () => 'children'
@@ -48,17 +68,21 @@ export default angular
       .otherwise({
         redirectTo: '/children/1'
       });
-  })
-  .config($ngReduxProvider => {
+  }])
+  .config(['$ngReduxProvider', $ngReduxProvider => {
     const logger = createLogger({
       level: 'info',
       collapsed: true
     });
 
     const reducers = combineReducers({
-      router: routerStateReducer
+      router: routerReducer
     });
 
     $ngReduxProvider.createStoreWith(reducers, ['ngRouterMiddleware', logger, thunk]);
-  })
+  }])
+  .run(['$rootScope', '$ngRedux', ($rootScope, $ngRedux) => {
+    $rootScope.$on('$routeChangeSuccess', (evt, current) => $ngRedux.dispatch(recordRoute(current)));
+    $rootScope.$on('$routeUpdate', (evt, current) => $ngRedux.dispatch(recordRoute(current)));
+  }])
   .name;

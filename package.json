@@ -4,7 +4,7 @@
   "description": "Redux middleware for use with Angular Router",
   "main": "src/index.js",
   "scripts": {
-    "lint": "htmlhint {src,example}/**/*.html --config .htmlhintrc && eslint src/**/*.js tests/**/*.js",
+    "lint": "htmlhint {src,example}/**/*.html --config .htmlhintrc && eslint src/**/*.js example/**/*.js",
     "start": "node example/server.js --inline --hot"
   },
   "repository": {
@@ -14,27 +14,26 @@
   "author": "Amit Portnoy <amit.portnoy@gmail.com> (https://github.com/amitport)",
   "license": "ISC",
   "dependencies": {
-    "ng-redux": "^3.0.0",
-    "redux-actions": "^1.2.0",
-    "angular": "1.6.x",
+    "ng-redux": "^3.4.0-beta.1",
+    "angular": "^1.6.0",
     "angular-route": "^1.6.0"
   },
   "devDependencies": {
     "babel-core": "6.20.0",
     "babel-eslint": "7.1.1",
+    "babel-loader": "6.2.9",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.18.0",
-    "babel-loader": "6.2.9",
     "chai": "3.5.0",
     "eslint": "3.12.1",
     "eslint-config-google": "^0.7.1",
+    "htmlhint": "^0.9.13",
     "mocha": "3.2.0",
-    "ng-redux": "3.4.0-beta.1",
     "node-libs-browser": "2.0.0",
-    "sinon": "1.17.6",
-    "sinon-as-promised": "4.0.2",
     "redux-logger": "2.7.4",
     "redux-thunk": "2.1.0",
+    "sinon": "1.17.6",
+    "sinon-as-promised": "4.0.2",
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2"
   }
