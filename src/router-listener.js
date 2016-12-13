@@ -8,6 +8,7 @@ export default function routerListener($rootScope, ngRouteChangeActions) {
   $rootScope.$on('$routeChangeStart', ngRouteChangeActions.onRouteChangeStart);
   $rootScope.$on('$routeChangeSuccess', ngRouteChangeActions.onRouteChangeSuccess);
   $rootScope.$on('$routeChangeError', ngRouteChangeActions.onRouteChangeError);
+  $rootScope.$on('$routeUpdate', ngRouteChangeActions.onRouteUpdate);
 }
 
 routerListener.$inject = [

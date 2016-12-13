@@ -1,17 +1,21 @@
-import { SET_LOCATION } from './action-types';
+import { SET_LOCATION_URL, SET_LOCATION_SEARCH, RELOAD } from './action-types';
 
-/**
- * This action create will trigger a $state.go in the UiRouter Middleware.
- * Accepts a payload which matches the UI Router $state.go function.
- *
- * @param  {String} to - State name
- * @param  {Object} params - (optional) Parameters to send with state
- * @param  {Object} options - (optional) Options object
- * @return {Object} Action object
- */
-export default function setLocation(url) {
+export function setLocationUrl(url) {
   return {
-    type: SET_LOCATION,
+    type: SET_LOCATION_URL,
     payload: url
+  };
+}
+
+export function setLocationSearch(params) {
+  return {
+    type: SET_LOCATION_SEARCH,
+    payload: params
+  };
+}
+
+export function reload() {
+  return {
+    type: RELOAD
   };
 }

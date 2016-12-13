@@ -1,11 +1,6 @@
-import { ROUTE_CHANGE_SUCCESS } from './action-types';
+import { ROUTE_CHANGE_SUCCESS, ROUTE_UPDATE } from './action-types';
 
-const INITIAL_STATE = {
-  currentState: {},
-  currentParams: {},
-  prevState: {},
-  prevParams: {}
-};
+const INITIAL_STATE = {};
 
 /**
  * Reducer of ROUTE_CHANGE_SUCCESS actions. Returns a state object
@@ -16,7 +11,19 @@ const INITIAL_STATE = {
  * @return {Object} New state
  */
 export default function routerStateReducer(state = INITIAL_STATE, action) {
-  return action.type === ROUTE_CHANGE_SUCCESS
-    ? {current: action.payload.current, previous: action.payload.previous}
-    : state;
+  switch (action.type) {
+    case ROUTE_CHANGE_SUCCESS:
+      return { current: info(action.payload.current), previous: info(action.payload.previous) };
+    case ROUTE_UPDATE:
+      return { current: info(action.payload.current), previous: state.current };
+    default:
+      return state;
+  }
+}
+
+function info(routeInfo) {
+  return routeInfo ? {
+    name: routeInfo.locals.name,
+    params: Object.assign({}, routeInfo.params)
+  } : { params: {} };
 }

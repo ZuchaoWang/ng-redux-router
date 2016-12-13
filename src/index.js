@@ -6,7 +6,7 @@ import routerMiddleware from './router-middleware';
 import routerListener from './router-listener';
 
 import routerStateReducer from './router-state-reducer';
-import setLocation from './set-location';
+import { setLocationUrl, setLocationSearch, reload } from './set-location';
 
 export default angular
   .module('ng-redux-router', [ngRoute])
@@ -15,6 +15,6 @@ export default angular
   .run(routerListener)
   .name;
 
-export {routerStateReducer};
+export { routerStateReducer };
 
-export const routerActions = {setLocation};
+export const routerActions = { setLocationUrl, setLocationSearch, reload };
